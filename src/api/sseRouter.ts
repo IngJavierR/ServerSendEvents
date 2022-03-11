@@ -24,7 +24,7 @@ const router: Router = Router();
  *              status: 200
  *              message: Users
  */
-router.get('/events/:id', sseFacade.event);
+router.get('/subscribe/:id/:channel?', sseFacade.event);
 
 /**
  * GET method route

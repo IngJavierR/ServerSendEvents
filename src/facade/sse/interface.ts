@@ -9,13 +9,13 @@ export interface IsseFacade {
      * @returns {Promise<Response>}
      * @memberof IsseFacade
      */
-    event(res: Response, id: string): Promise<void>;
+    event(res: Response, id: string, channel: string): Promise<void>;
 
     /**
      * @returns {Promise<void>}
      * @memberof IsseFacade
      */
-     send(ids: string[]): Promise<Response[]>;
+     send(ids: string[], channels: string[]): Promise<Response[]>;
 
      /**
      * @returns {Promise<void>}

@@ -4,6 +4,7 @@ import {v4 as uuidv4} from 'uuid';
 
 interface Clients{
     res: Response,
+    channel: string,
     id: string,
     uuid: string
 }
@@ -18,13 +19,16 @@ const sseFacade: IsseFacade = {
      * @returns {Promise < string >}
      * @memberof sseFacade
      */
-    async event(res: Response, id: string): Promise<void> {
+    async event(res: Response, id: string, channel: string): Promise<void> {
         let uuid = uuidv4();
-        console.log("UUID ", uuid);
-        console.log('Id', id);
+        console.log("New subscriber");
+        console.log("UUID: ", uuid);
+        console.log('Id:', id);
+        console.log('Channel:', channel);
         clients.push({
             res: res,
             id: id,
+            channel: channel,
             uuid: uuid
         });
     },
@@ -32,10 +36,23 @@ const sseFacade: IsseFacade = {
      * @returns {Promise <void>}
      * @memberof sseFacade
      */
-     async send(ids: string[]): Promise<Response[]> {
-        console.log('Id', ids);
+     async send(ids: string[], channels: string[]): Promise<Response[]> {
         await this.deleteDisconnected();
-        return clients.filter(cte => ids.includes(cte.id)).map(cte => cte.res);
+        console.log('New Message to');
+        console.log('Id', ids);
+        console.log('Channels', channels);
+
+        let clientsById: Response[] = [];
+        let clientsByChannel: Response[] = [];
+
+        if(ids){
+            clientsById = clients.filter(cte => ids.includes(cte.id)).map(cte => cte.res);
+        }
+        if(channels){
+            clientsByChannel = clients.filter(cte => channels.includes(cte.channel)).map(cte => cte.res);
+        }
+
+        return [...new Set(clientsById.concat(clientsByChannel))];
     },
     /**
      * @returns {Promise <void>}

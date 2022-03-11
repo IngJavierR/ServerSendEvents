@@ -6,6 +6,7 @@
    </head>
    <body>
       Id User:<input type="text" id="idUser" value="1"/>
+      Channel:<input type="text" id="channel" value=""/>
       <input type="button" id="initButton" value="Start Listening"/>
       <input type="button" id="stopButton" value="Stop Listening"/>
       <hr/>
@@ -14,7 +15,8 @@
          var source;
          document.getElementById('initButton').onclick=function(){
             idUser = document.getElementById("idUser").value;
-            source = new EventSource('http://localhost:9220/events/' + idUser);
+            channel = document.getElementById("channel").value;
+            source = new EventSource('http://localhost:9220/subscribe/' + idUser + "/" + channel);
             source.addEventListener('open', function(e) {
                document.getElementById('content').innerHTML += 'Connections to the server established..<br/>';
             }, false);

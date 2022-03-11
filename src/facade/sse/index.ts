@@ -11,7 +11,10 @@ import HttpStatusCode from '../../commons/constants/HttpStatusCode';
  */
 export async function event(req: Request, res: Response, next: NextFunction): Promise <void> {
     try {
-        await sseFacade.event(res, req.params.id);
+        let id = req.params.id;
+        let channel = req.params.channel;
+
+        await sseFacade.event(res, id, channel);
         res.set({
             'Cache-Control': 'no-cache',
             'Content-Type': 'text/event-stream',
@@ -35,11 +38,14 @@ export async function event(req: Request, res: Response, next: NextFunction): Pr
  export async function send(req: Request, res: Response, next: NextFunction): Promise < void > {
     try {
         let message = req.body.message;
-        let id: string[] = req.body.id.split(',');
-        let newres = await sseFacade.send(id);
+        let ids: string[] = req.body.ids?.split(',');
+        let channels: string[] = req.body.channels?.split(',');
+
+        let newres = await sseFacade.send(ids, channels);
         newres.forEach(r => r.write(`data: ${message}\n\n`));
-        console.log('Message Sended to ' + newres.length + ' users');
-        res.status(HttpStatusCode.OK).end();
+        let result = `Message Sended to ${newres.length} users`; 
+        console.log(result);
+        res.status(HttpStatusCode.OK).json(result)
     } catch (error) {
         next(error);
     }
