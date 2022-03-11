@@ -1,0 +1,94 @@
+{
+  "name": "archetype",
+  "version": "1.0.0",
+  "description": "Arquetipo NodeJs Microservicio",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && copy-files",
+    "start": "tsc && npm run copy-files && node ./build/src/config/server/index.js",
+    "test": "mocha --exit",
+    "coverage": "nyc mocha --exit",
+    "copy-files": "cp ./src/api/index.html ./build/src/api/index.html",
+    "tsc": "tsc"
+  },
+  "author": "Arquitectura Axity",
+  "license": "ISC",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^4.1.1",
+    "kafkajs": "^1.12.0",
+    "pg": "^8.3.3",
+    "pg-hstore": "^2.3.3",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.3.5",
+    "sequelize-typescript": "^2.0.0-beta.0"
+  },
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/chai": "^4.2.12",
+    "@types/compression": "^1.7.0",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/cors": "^2.8.7",
+    "@types/debug": "^4.1.5",
+    "@types/express": "^4.17.8",
+    "@types/helmet": "0.0.48",
+    "@types/kafkajs": "^1.9.0",
+    "@types/mocha": "^8.0.3",
+    "@types/node": "^14.11.1",
+    "@types/swagger-jsdoc": "^3.0.2",
+    "@types/swagger-ui-express": "^4.1.2",
+    "@types/uuid": "^8.3.4",
+    "@types/validator": "^13.1.0",
+    "chai": "^4.2.0",
+    "mocha": "^8.1.3",
+    "nyc": "^15.1.0",
+    "source-map-support": "^0.5.19",
+    "sqlite3": "^5.0.0",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4",
+    "ts-node": "^9.0.0",
+    "ts-sinon": "^2.0.1",
+    "typescript": "^4.1.2",
+    "uuid": "^8.3.2"
+  },
+  "mocha": {
+    "require": [
+      "ts-node/register",
+      "source-map-support/register"
+    ],
+    "recursive": true,
+    "spec": "tests/**"
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "include": [
+      "src/facade/**/*.ts",
+      "src/facade/*.ts",
+      "src/services/**/*.ts",
+      "src/services/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "src/facade/index.ts",
+      "src/facade/**/index.ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text",
+      "text-summary",
+      "html",
+      "lcov"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "all": true
+  }
+}
