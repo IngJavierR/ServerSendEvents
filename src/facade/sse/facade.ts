@@ -2,7 +2,7 @@ import { IsseFacade } from "./interface";
 import { Response } from 'express';
 import {v4 as uuidv4} from 'uuid';
 
-interface Clients{
+export interface Clients{
     res: Response,
     channel: string,
     id: string,
@@ -45,10 +45,10 @@ const sseFacade: IsseFacade = {
         let clientsById: Response[] = [];
         let clientsByChannel: Response[] = [];
 
-        if(ids){
+        if(ids && ids.length > 0){
             clientsById = clients.filter(cte => ids.includes(cte.id)).map(cte => cte.res);
         }
-        if(channels){
+        if(channels && channels.length > 0){
             clientsByChannel = clients.filter(cte => channels.includes(cte.channel)).map(cte => cte.res);
         }
 

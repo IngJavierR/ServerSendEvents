@@ -9,5 +9,5 @@ export interface IsseService {
      * @returns {Promise<any[]>}
      * @memberof IsseService
      */
-    findAll(): Promise<any[]>;
+    findAll(): Promise<any>;
 }
