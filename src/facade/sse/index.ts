@@ -15,11 +15,10 @@ export async function event(req: Request, res: Response, next: NextFunction): Pr
         let channel = req.params.channel;
 
         await sseFacade.event(res, id, channel);
-        res.set({
-            'Cache-Control': 'no-cache',
-            'Content-Type': 'text/event-stream',
-            'Connection': 'keep-alive'
-          });
+        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('Content-Type', 'text/event-stream');
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Connection', 'keep-alive');
         res.flushHeaders();
         res.write('retry: 10000\n\n');
     } catch (error) {
