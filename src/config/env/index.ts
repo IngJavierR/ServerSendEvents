@@ -1,5 +1,5 @@
-import * as dotenv from 'dotenv';
 import { Dialect } from 'sequelize/types';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -19,6 +19,7 @@ interface IConfig {
         GROUP_ID: string;
         BROKER: string;
     };
+    sseTimeout: number;
     secret: string;
 }
 
@@ -39,6 +40,7 @@ const development: IConfig = {
         GROUP_ID: process.env.GROUP_ID || 'test-app',
         BROKER: process.env.BROKER || 'localhost:9092'
     },
+    sseTimeout: Number(process.env.SSE_TIMEOUT) || 20,
     secret: process.env.SECRET || '@QEGTUI'
 };
 
@@ -57,6 +59,7 @@ const production: IConfig = {
         GROUP_ID: process.env.GROUP_ID || 'test-app',
         BROKER: process.env.BROKER || 'localhost:9092'
     },
+    sseTimeout: Number(process.env.SSE_TIMEOUT) || 20,
     secret: process.env.SECRET || '@QEGTUI'
 };
 
@@ -71,6 +74,7 @@ const test: IConfig = {
         GROUP_ID: process.env.GROUP_ID || 'test-app',
         BROKER: process.env.BROKER || 'localhost:9092'
     },
+    sseTimeout: Number(process.env.SSE_TIMEOUT) || 20,
     secret: process.env.SECRET || '@QEGTUI'
 };
 

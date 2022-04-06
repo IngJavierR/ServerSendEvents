@@ -64,7 +64,26 @@ router.get('/subscribe/:id/:channel?', sseFacade.event);
  */
  router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/index.html'));
-});
+  });
+
+/**
+ * OPTIONS method route
+ * @example http://localhost:PORT/subscribe
+ * @swagger
+ * /ping/:
+ *  post:
+ *    description: Test service
+ *    tags: ["subscribe"]
+ *    responses:
+ *      200:
+ *        description: Pong
+ *        content:
+ *          appication/json:
+ *            example:
+ *              status: 200
+ *              message: pong
+ */
+router.options("/subscribe/:id/:channel?", sseFacade.options);
 
 /**
  * GET method route

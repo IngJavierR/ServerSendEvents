@@ -3,6 +3,8 @@ import * as Middleware from '../interceptors/middleware';
 import * as Routes from '../../api';
 import { db } from '../connection/database';
 import * as Kafka from "../stream/kafka";
+import sseFacade from '../../facade/sse/facade';
+import config from '../../config/env/index';
 
 /**
  * @constant {express.Application}
@@ -12,7 +14,7 @@ const app: express.Application = express();
 /** 
  * @constructs express.Application Middleware
  */
-//Middleware.configure(app);
+Middleware.configure(app);
 
 /**
  * @constructs express.Application Routes

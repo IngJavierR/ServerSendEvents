@@ -4,7 +4,7 @@
   "description": "Arquetipo NodeJs Microservicio",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && copy-files",
+    "build": "tsc && npm run copy-files",
     "start": "tsc && npm run copy-files && node ./build/src/config/server/index.js",
     "test": "mocha --exit",
     "coverage": "nyc mocha --exit",

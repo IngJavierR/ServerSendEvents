@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: oauth2-services
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/auth-url: "http://$host/oauth2/auth"
+
+    #If you need services redirect to login on fail, uncomment this line
+    #nginx.ingress.kubernetes.io/auth-signin: "http://$host/oauth2/start?rd=$escaped_request_uri"
+    nginx.ingress.kubernetes.io/auth-response-headers: "x-auth-request-user, x-auth-request-email, authorization"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, PATCH"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "1200"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1200"
+    nginx.ingress.kubernetes.io/auth-snippet: |
+      set $token "";
+      set $auth_header $http_authorization;
+      if ($request_uri ~ "access_token=([^&]*)") {
+        set $token $1;
+      }
+      if ($token) {
+        set $auth_header "Bearer $token";
+      }
+      proxy_set_header Authorization $auth_header;
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: servicesse
+            port:
+              number: 9220
+        path: /v1/service/sse(/|$)(.*)
+        pathType: Prefix
+  ingressClassName: nginx

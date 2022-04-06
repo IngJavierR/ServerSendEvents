@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: servicesse
+  labels:
+    app: servicesse
+spec:
+  ports:
+  - port: 9220
+    protocol: TCP
+    targetPort: 9220
+  sessionAffinity: ClientIP
+  selector:
+    app: servicesse
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servicesse
+  namespace: default
+  labels:
+    app: servicesse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: servicesse
+  template:
+    metadata:
+      labels:
+        app: servicesse
+    spec:
+      containers:
+      - name: servicesse
+        image: arquitecturaaxityswd/sse:latest
+        ports:
+        - containerPort: 9220
+        env:
+        - name: SSE_TIMEOUT
+          value: "3"

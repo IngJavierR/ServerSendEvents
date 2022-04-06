@@ -20,7 +20,7 @@ export function configure(app: express.Application): void {
     // parse Cookie header and populate req.cookies with an object keyed by the cookie names.
     app.use(cookieParser());
     // returns the compression middleware
-    app.use(compression());
+    // app.use(compression());
     // helps you secure your Express apps by setting various HTTP headers
     app.use(helmet());
     // providing a Connect/Express middleware that can be used to enable CORS with various options

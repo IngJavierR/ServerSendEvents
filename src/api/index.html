@@ -7,6 +7,7 @@
    <body>
       Id User:<input type="text" id="idUser" value="1"/>
       Channel:<input type="text" id="channel" value=""/>
+      Token:<input type="text" id="token" value=""/>
       <input type="button" id="initButton" value="Start Listening"/>
       <input type="button" id="stopButton" value="Stop Listening"/>
       <hr/>
@@ -16,9 +17,15 @@
          document.getElementById('initButton').onclick=function(){
             idUser = document.getElementById("idUser").value;
             channel = document.getElementById("channel").value;
-            source = new EventSource('http://localhost:9220/subscribe/' + idUser + "/" + channel);
+            token = document.getElementById("token").value;
+            // source = new EventSource('http://localhost:9100/subscribe/' + idUser + "/" + channel);
+            token = "access_token=" + token;
+            source = new EventSource('http://localhost/v1/service/sse/subscribe/' + idUser + "/" + channel + "?" + token);
             source.addEventListener('open', function(e) {
                document.getElementById('content').innerHTML += 'Connections to the server established..<br/>';
+            }, false);
+            source.addEventListener('keep', function(e) {
+               document.getElementById('content').innerHTML += 'Keeping alive..<br/>';
             }, false);
             source.onmessage = function(e) {
                document.getElementById('content').innerHTML += e.data + '<br/>';

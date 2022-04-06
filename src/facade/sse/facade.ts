@@ -54,6 +54,7 @@ const sseFacade: IsseFacade = {
 
         return [...new Set(clientsById.concat(clientsByChannel))];
     },
+    
     /**
      * @returns {Promise <void>}
      * @memberof sseFacade
@@ -62,6 +63,20 @@ const sseFacade: IsseFacade = {
         console.log('Listeners Init', clients.length);
         clients = clients.filter(c => !c.res.socket?.destroyed);
         console.log('Listeners Fin', clients.length);
+    },
+
+    /**
+     * @returns {Promise <void>}
+     * @memberof sseFacade
+     */
+     async keepAlive(): Promise<void> {
+        await this.deleteDisconnected();
+        console.log('Sending keep alive');
+        clients.forEach(c => {
+            c.res.flush();
+            c.res.write("event: keep\n");
+            c.res.write(`data: keep\n\n`);
+        })
     }
 }
 

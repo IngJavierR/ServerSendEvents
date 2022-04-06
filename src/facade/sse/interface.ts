@@ -15,11 +15,17 @@ export interface IsseFacade {
      * @returns {Promise<void>}
      * @memberof IsseFacade
      */
-     send(ids: string[], channels: string[]): Promise<Response[]>;
+    send(ids: string[], channels: string[]): Promise<Response[]>;
 
      /**
      * @returns {Promise<void>}
      * @memberof IsseFacade
      */
-      deleteDisconnected(): Promise<void>;
+    deleteDisconnected(): Promise<void>;
+
+    /**
+     * @returns {Promise<void>}
+     * @memberof IsseFacade
+     */
+    keepAlive(): Promise<void>;
 }
